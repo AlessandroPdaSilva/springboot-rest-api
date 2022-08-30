@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Projeto Spring</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+
+	<h1>Primeiro projeto Spring</h1>
+	
+	<form>
+		<div class="form-group">
+	    	<label for="id">ID</label>
+	    	<input type="text" class="form-control" id="id" readonly="readonly">
+	 	</div>
+	
+		<div class="form-group">
+	    	<label for="nome">Nome</label>
+	    	<input type="text" class="form-control" id="nome" placeholder="Digite seu nome">
+	  	</div>
+	  	
+	  	<div class="form-group">
+	    	<label for="idade">Idade</label>
+	    	<input type="number" class="form-control" id="idade">
+	  	</div>
+	  	
+	  	<button type="button" class="btn btn-primary" onclick="salvarUsuario()">Salvar</button>
+		<button type="button" class="btn btn-secondary" onclick="this.form.reset();" >Novo</button>
+	</form>
+	
+	
+	
+	
+	<!-- JQuery-->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+ 	<!-- Javascript Bootstrap -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
+	<!-- JavaScript -->
+	<script type="text/javascript">
+	
+		function salvarUsuario(){
+			var id = $("#id").val();
+			var nome = $("#nome").val();
+			var idade = $("#idade").val();
+			
+			
+			$.ajax({
+				method : "POST",
+				url : "salvarusuario",
+				data : JSON.stringify({
+					id : id,
+					nome : nome,
+					idade : idade
+				}),
+				contentType : "application/json; charset=utf-8",
+				success : function(response) {
+					$("#id").val(response.id);
+					alert("Gravou com sucesso!");
+				}
+			}).fail(function(xhr, status, errorThrown) {
+				alert("Erro ao salvar usuario: " + xhr.responseText);
+			});
+
+			
+			
+		}
+			
+	
+	</script>
+
+</body>
+</html>

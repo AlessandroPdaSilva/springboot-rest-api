@@ -27,7 +27,7 @@ public class GreetingsController {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
   
-    @RequestMapping(value = "/{url}", method = RequestMethod.GET)
+    @RequestMapping(value = "/mostranome/{url}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public String greetingText(@PathVariable String url) {
     	
