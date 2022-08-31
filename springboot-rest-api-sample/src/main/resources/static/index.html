@@ -9,7 +9,7 @@
 
 	<h1>Primeiro projeto Spring</h1>
 	
-	<form>
+	<form id="formularioUsuario">
 		<div class="form-group">
 	    	<label for="id">ID</label>
 	    	<input type="text" class="form-control" id="id" readonly="readonly">
@@ -28,7 +28,7 @@
 	  	<button type="button" class="btn btn-success" onclick="salvarUsuario()">Salvar</button>
 		<button type="button" class="btn btn-secondary" onclick="this.form.reset();" >Novo</button>
 		<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalPesquisar" >Pesquisar</button>
-		
+		<button type="button" class="btn btn-danger" onclick="botaoDeletarDaTela()">Deletar</button>
 	</form>
 	
 	
@@ -59,6 +59,7 @@
 				      <th scope="col">ID</th>
 				      <th scope="col">Nome</th>
 				      <th scope="col">Editar</th>
+				      <th scope="col">Deletar</th>
 				    </tr>
 				  </thead>
 				  <tbody>
@@ -87,6 +88,45 @@
 	<!-- JavaScript -->
 	<script type="text/javascript">
 	
+		function botaoDeletarDaTela(){
+			
+			var id = $('#id').val();
+			
+			if(id != null && id.trim() != ''){
+				
+			 deletarUsuario(id);
+			 document.getElementById('formularioUsuario').reset();
+			 
+			}
+			
+		}
+	
+		function deletarUsuario(id){
+			
+			
+			if(confirm("Deseja realmente deletar?")){
+				
+				
+				$.ajax({
+					method : "DELETE",
+					url : "deletarusuario",
+					data : "idUsuario="+id,
+					success : function(response) {
+						
+						$('#' + id).remove();
+						
+						alert(response)
+						
+					}
+				}).fail(function(xhr, status, errorThrown) {
+					alert("Erro ao Pesquisar usuario: " + xhr.responseText);
+				});
+				
+			}
+			
+		}
+	
+	
 		function pesquisarUsuario(){
 			
 			var nome = $("#campoPesquisar").val();
@@ -102,7 +142,7 @@
 					$("#tabelaPesquisa > tbody > tr").remove();
 					
 					for(i = 0; i < response.length; i++){
-						$("#tabelaPesquisa > tbody ").append("<tr><td>"+ response[i].id+"</td> <td>"+ response[i].nome+"</td> <td><button type='button' class='btn btn-dark' data-bs-dismiss='modal' onclick='colocarEmEdicao("+response[i].id+")' >Ver</button></td> </tr>")
+						$("#tabelaPesquisa > tbody ").append("<tr id='"+ response[i].id+"' ><td>"+ response[i].id+"</td> <td>"+ response[i].nome+"</td> <td><button type='button' class='btn btn-dark' data-bs-dismiss='modal' onclick='colocarEmEdicao("+response[i].id+")' >Ver</button></td> <td> <button type='button' class='btn btn-danger' onclick='deletarUsuario("+response[i].id+")' >Delete</button></td> </tr>")
 					}
 					
 				}
